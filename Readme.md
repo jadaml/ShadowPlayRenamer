@@ -12,7 +12,7 @@ The tools are only focusing on `.mp4` files.
 
 **Note**
 This is a quick and dirty fix for the lack of implementation for specifying
-custom file names in NVidia's Shadow Play feature. Configuring it might require
+custom file names in NVIDIA Shadow Play feature. Configuring it might require
 some diligence for users not as involved in programming.
 I primarily made for my self and to study how to implement services in .NET, but
 share it here so others can benefit from the project.
@@ -24,9 +24,7 @@ version.
 
 **Disclaimers**
 I do not take any responsibility for any loss of data this tool might cause.
-Use it at your own risk.  
-The software does not manipulate any software's binary files or configurations
-to achieve the features it provides.
+Use it at your own risk.
 
 <!-- Trademark and Copyright disclaimers against NVidia and Shadow Play -->
 
