@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <ComponentGroup Id="Core" Directory="INSTALLFOLDER">
+      <Component Id="SPRCORE.DLL" Guid="6c81a03d-5eb3-43b8-b767-504accbf385b">
+        <File Id="SPRCORE.DLL" Name="SPRCore.dll" Source="$(var.ShadowPlayRenamerCore.TargetDir)SPRCore.dll" />
+      </Component>
+      <Component Id="COPYING" Guid="52117b24-b914-430c-91bf-ee6554fb7b0a">
+        <File Id="COPYING" Name="COPYING" Source="$(var.ProjectDir)COPYING" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="Service" Directory="INSTALLFOLDER">
+      <Component Id="SPRSVC.EXE" Guid="a38c8366-1f27-4c79-8d0f-65cee5ee052d">
+        <File Id="SPRSVC.EXE" Name="SPRSVC.exe" Source="$(var.ShadowPlayRenamerSvc.TargetDir)SPRSVC.exe" />
+        <?if $(sys.BUILDARCH)=x64 ?>
+        <util:EventSource Log="Application" Name="SPRSVC" EventMessageFile="[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\EventLogMe‌​ssages.dll"/>
+        <?else ?>
+        <util:EventSource Log="Application" Name="SPRSVC" EventMessageFile="[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll"/>
+        <?endif ?>
+        <ServiceInstall Id="ServiceInstaller" Account="NT AUTHORITY\LocalService"
+                        Description="This service will monitor and rename any video files that the user creates with the GeForce Xperience Shadow Play feature to whatever date time format the user specified"
+                        DisplayName="Shadow Play Renamer service" ErrorControl="ignore"
+                        Interactive="no" Name="SPRSVC" Start="auto" Type="ownProcess" Vital="yes"/>
+        <ServiceControl Id="ServiceControl" Name="SPRSVC" Start="install" Stop="both" Remove="uninstall" Wait="yes"/>
+      </Component>
+      <Component Id="SPRSVC.CFG" Guid="21281cd6-1706-4853-b875-bafb8f4b6a8e" Permanent="yes">
+        <RegistryValue Root='HKLM' Key='SOFTWARE\SPR' Name='SPPath' Value='[SPPATH]' Type='string' />
+        <File Id="SPRSVC.CFG" Name="SPRSVC.exe.config" Source="$(var.ShadowPlayRenamerSvc.TargetDir)SPRSVC.exe.config" />
+        <util:XmlFile Id="AppConfigSetConnStr" Action="setValue" Permanent="yes" File="[#SPRSVC.CFG]"
+                      ElementPath="/configuration/appSettings/add[\[]@key='MonitorPath'[\]]"
+                      Name="value" Value="[SPPATH]" />
+        <util:XmlFile Id="LogLevel" Action="setValue" Permanent="yes" File="[#SPRSVC.CFG]"
+                      ElementPath="/configuration/system.diagnostics/sources/source[\[]@name='ShadowPlayRenamerSvc'[\]]"
+                      Name="switchValue" Value="Critical"/>
+        <util:XmlFile Id="LogPath" Action="setValue" Permanent="yes" File="[#SPRSVC.CFG]"
+                      ElementPath="/configuration/system.diagnostics/sources/source[\[]@name='ShadowPlayRenamerSvc'[\]]/listeners/add[\[]@name='svclog'[\]]"
+                      Name="initializeData" Value="[CommonAppDataFolder]SPRLogs\SPRSVC.svclog"/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="CLI" Directory="INSTALLFOLDER">
+      <Component Id="SPRCLI.EXE" Guid="3ac31950-e724-4d69-bfb6-1c5259c26be2">
+        <File Id="SPRCLI.EXE" Name="SPRCLI.exe" Source="$(var.ShadowPlayRenamer.TargetDir)SPRCLI.exe" />
+      </Component>
+      <Component Id="SPRCLI.CFG" Guid="d79590c9-11b8-43cc-b57c-e88b1cdfe534">
+        <File Id="SPRCLI.CFG" Name="SPRCLI.exe.config" Source="$(var.ShadowPlayRenamer.TargetDir)SPRCLI.exe.config" />
+      </Component>
+    </ComponentGroup>
+    <!--<ComponentGroup Id="DEBUG">
+      <Component Id="SPRCORE.PDB" Guid="297b8828-8568-48a0-b1ff-a222a179219a">
+        <File Id="SPRCORE.PDB" Name="SPRCore.pdb" Source="$(var.ShadowPlayRenamerCore.TargetDir)SPRCore.pdb" />
+        <Condition><![CDATA[]]></Condition>
+      </Component>
+      <Component Id="SPRSVC.PDB" Guid="6c9af129-181d-45d8-a921-46efeac55b8e">
+        <File Id="SPRSVC.PDB" Name="SPRSVC.pdb" Source="$(var.ShadowPlayRenamerSvc.TargetDir)SPRSVC.pdb" />
+      </Component>
+      <Component Id="SPRCLI.PDB" Guid="6f8422ba-3f43-49f7-8e6a-293263e1500e">
+        <File Id="SPRCLI.PDB" Name="SPRCLI.pdb" Source="$(var.ShadowPlayRenamer.TargetDir)SPRCLI.pdb" />
+      </Component>      
+    </ComponentGroup>-->
+  </Fragment>
+</Wix>

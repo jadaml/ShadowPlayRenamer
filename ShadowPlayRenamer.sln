@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPlayRenamerSvc", "ShadowPlayRenamerSvc\ShadowPlayRenamerSvc.csproj", "{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPlayRenamerCore", "ShadowPlayRenamerCore\ShadowPlayRenamerCore.csproj", "{27AD7072-9244-46B1-A8C8-17B1FB6112D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowPlayRenamer", "ShadowPlayRenamer\ShadowPlayRenamer.csproj", "{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C067A193-7531-4DD3-BC6A-E51B149D7C2B}"
+	ProjectSection(SolutionItems) = preProject
+		COPYING = COPYING
+		COPYING.md = COPYING.md
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SPRSetup", "SPRSetup\SPRSetup.wixproj", "{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D266C8F0-AE39-4E7F-827E-0B505AD4DD8A}.Release|x86.Build.0 = Release|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{27AD7072-9244-46B1-A8C8-17B1FB6112D8}.Release|x86.Build.0 = Release|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA9E30A8-CAF6-4C67-BC30-42D384CA8FFD}.Release|x86.Build.0 = Release|Any CPU
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Debug|Any CPU.Build.0 = Debug|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Debug|x86.ActiveCfg = Debug|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Debug|x86.Build.0 = Debug|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Release|Any CPU.ActiveCfg = Release|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Release|x86.ActiveCfg = Release|x86
+		{F0F39BD4-AA2F-4CAC-B196-4CC4C4819630}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D10515C-06FF-4FE7-B665-8F9F2E1237EB}
+	EndGlobalSection
+EndGlobal
