@@ -43,8 +43,8 @@ My apologies in any inconvenience this causes.
 Updates to this document will be made only the next time I update the source
 files.
 
-My plan is to upload a compiled version here, on GitHub. If I didn't miserably
-failed, then you can find it on the [Releases page][Latest].
+You can find the latest release on the [Releases page][Latest] at the top of the
+page, where you can download either the installer or just the binary files.
 
   [Latest]: /releases/latest
 
@@ -73,6 +73,21 @@ The MSI installer will automatically install the service, asks for the folder
 where you record your videos, and configure them during installation.  
 If you whish to further configure the service, you may do so by following the
 [Fine tuning](#tuning) section.
+
+You can specify the following properties to automate the process:
+
+INSTALLFOLDER  
+:   The path to install the binary files.
+
+SPPATH  
+:   The path to your video recordings.
+
+INSTALLPDB=1  
+:   Install the debug symbols. Debug symbols are not required for the normal
+    operation of the software. It is only provided, if you encounter a problem
+    and you wish to report the issue.
+
+    Debug symbols can be also downloaded separately.
 
 ### Manually ###
 
@@ -126,13 +141,13 @@ These settings are only working with the file name without the extension, and
 preserves that extension after the transformation.
 The following keys are available:
 
-MonitorPath
+MonitorPath  
 :   (Required; initial: *empty*)  
     This is the path, that the service will monitor. This is the key that the
     installer will modify, and can be modified with the `SPRSVC.exe Monitor
     <path>` command.
 
-RetryDelay
+RetryDelay  
 :   (Required; initial: `10000`)  
     This key controls the delay in milliseconds the service should wait before
     trying to rename the file again.
@@ -142,7 +157,7 @@ RetryDelay
     make an attempt to modify it. Since there are the possibility that this
     could ruin the performance of the PC for some, this key was introduced.
 
-Pattern
+Pattern  
 :   (Optional; default value:
     `(?&lt;name&gt;.*)\s+(?&lt;date&gt;\d{2}\.\d{2}\.\d{4}) -
     (?&lt;time&gt;\d{2}\.\d{2}\.\d{2}.\d{2})`)  
@@ -160,7 +175,7 @@ Pattern
     and ***InputTimeFormat*** and captured as the second argument for the
     ***OutputFormat*** value.
 
-OutputFormat
+OutputFormat  
 :   (Optional; default value: `{0} {1:yyyy\.MM\.dd} - {1:HH\.mm\.ss\.ff}`)
     This is the format that the file name will be after the rename.  
 
@@ -178,7 +193,7 @@ OutputFormat
     accepts as either [Standard Date and Time format strings][SDateTime] or
     [Custom Date and Time format strings][CDateTime].
 
-InputDateFormat
+InputDateFormat  
 :   (Optional; Default value: `MM\.dd\.yyyy`)  
     The format the file to be modified specifies the date captured by the *date*
     named group.
@@ -186,7 +201,7 @@ InputDateFormat
     This follows the same formatting as the .NET [Standard Date and Time format
     strings][SDateTime] and [Custom Date and Time format strings][CDateTime].
 
-InputTimeFormat
+InputTimeFormat  
 :   (Optional; Default value: `hh\.mm\.ss\.ff`)  
     The format the file to be modified specifies the time captured by the *time*
     named group.
@@ -203,26 +218,26 @@ the configuration ▸ system.diagnostics ▸ sources ▸ source tag with the
 `ShadowPlayRenamerSvc` name attribute. You can specify more than one value
 separated by commas. The values can be the following:
 
-All
+All  
 :   Turns on all the log level specified below. No other level specifications
     are required after this.
 
-Critical
+Critical  
 :   Turns on the *Critical* logging level messages.
 
-Error
+Error  
 :   Turns on the *Error* logging level messages.
 
-Warning
+Warning  
 :   Turns on the *Warning* logging level messages.
 
-Information
+Information  
 :   Turns on the *Information* logging level messages.
 
-Verbose
+Verbose  
 :   Turns on the *Verbose* logging level messages.
 
-ActivityTracking
+ActivityTracking  
 :   Turns on the messages that reports the service activities, like starting the
     service, stopping the service, an action starts or stops, suspended or
     resumed.

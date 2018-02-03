@@ -59,6 +59,10 @@
     <Content Include="gpl-3.0.rtf" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixFileVersionExtension">
+      <HintPath>References\WixFileVersionExtension.dll</HintPath>
+      <Name>WixFileVersionExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>

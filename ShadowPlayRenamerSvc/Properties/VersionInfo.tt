@@ -6,14 +6,15 @@
 <#@ output extension=".cs" #>
 <#
 
-string baseVersion = "1.0";
-string fileVersion = "1.0";
-string revision    = Environment.GetEnvironmentVariable("REVISION_NUMBER") ?? "0";
-string build       = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "0";
+int    major    = 1;
+int    minor    = 0;
+int    patch    = 0;
+string revision = Environment.GetEnvironmentVariable("REVISION_NUMBER") ?? "0";
+string build    = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "0";
 
 #>
 using System.Reflection;
 
-[assembly: AssemblyVersion("<#= baseVersion #>.0.0")]
-[assembly: AssemblyFileVersion("<#= fileVersion #>.<#= build #>.<#= revision #>")]
-[assembly: AssemblyInformationalVersion("<#= baseVersion #>.<#= build #>.<#= revision #>")]
+[assembly: AssemblyVersion("<#= major #>.0.0.0")]
+[assembly: AssemblyFileVersion("<#= major #>.<#= minor #>.<#= build #>.<#= revision #>")]
+[assembly: AssemblyInformationalVersion("<#= major #>.<#= minor #>.<#= patch #>+<#= build #>.<#= revision #>")]
