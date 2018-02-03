@@ -8,7 +8,7 @@
     <Condition Message='This program is only supported on Windows Vista or later.'><![CDATA[VersionNT >= 600]]></Condition>
     <MajorUpgrade DowngradeErrorMessage="A newer version of Shadow Play Renamer is already installed." />
     <UIRef Id="SPRUI"/>
-    <MediaTemplate />
+    <Media Id="1" Cabinet="PRODUCT.CAB" EmbedCab="yes"/>
     <FeatureRef Id="CoreFeatures" />
     <WixVariable Id="WixUILicenseRtf" Value="gpl-3.0.rtf" />
   </Product>

@@ -16,6 +16,7 @@
 
 using System.ComponentModel;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace JAL.ShadowPlayRenamer.Service
 {
@@ -40,5 +41,8 @@ namespace JAL.ShadowPlayRenamer.Service
             inputDateFormat = ConfigurationManager.AppSettings["InputDateFormat"] ?? @"MM\.dd\.yyyy";
             inputTimeFormat = ConfigurationManager.AppSettings["InputTimeFormat"] ?? @"hh\.mm\.ss\.ff";
         }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

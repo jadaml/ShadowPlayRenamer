@@ -2,13 +2,11 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment>
-    <util:RegistrySearch Root='HKLM' Key='SOFTWARE\RPS' Value='SPPath' Result='exists' Variable='SPPathSet'/>
-    <util:RegistrySearch Root='HKLM' Key='SOFTWARE\RPS' Value='SPPath' Result='value' Variable='SPPATH'/>
     <UI Id="SPRUI">
       <UIRef Id="WixUI_Mondo"/>
 
       <Property Id="SPPATH" Value="$(env.USERPROFILE)\Videos\Game Recordings" Secure="yes">
-        <RegistrySearch Id='SPPATH' Root='HKLM' Key='SOFTWARE\RPS' Name='SPPath' Type='raw' />
+        <RegistrySearch Id='SPPATH' Root='HKLM' Key='SOFTWARE\SPR' Name='SPPath' Type='raw' />
       </Property>
 
       <Dialog Id="ConfigurationDlg" Title="[ProductName] Setup" NoMinimize="yes" Width="370" Height="270">
