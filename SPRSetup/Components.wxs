@@ -3,11 +3,18 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment>
     <ComponentGroup Id="Core" Directory="INSTALLFOLDER">
+      <Component DiskId="1" Id="SEMVER.DLL" Guid="679ee716-6d6e-4b61-a2db-c8190b5dbd88">
+        <File Id="SEMVER.DLL" Name="Enhancer.SemVer.dll" Source="$(var.ShadowPlayRenamerCore.TargetDir)Enhancer.SemVer.dll"/>
+      </Component>
       <Component DiskId="1" Id="SPRCORE.DLL" Guid="6c81a03d-5eb3-43b8-b767-504accbf385b">
         <File Id="SPRCORE.DLL" Name="SPRCore.dll" Source="$(var.ShadowPlayRenamerCore.TargetDir)SPRCore.dll" />
       </Component>
       <Component DiskId="1" Id="COPYING" Guid="52117b24-b914-430c-91bf-ee6554fb7b0a">
         <File Id="COPYING" Name="COPYING" Source="$(var.ProjectDir)COPYING" />
+      </Component>
+      <Component DiskId="1" Id="SEMVER.PDB" Guid="704a06cf-8863-4aff-869b-1ae09249b512">
+        <File Id="SEMVER.PDB" Name="Enhancer.SemVer.pdb" Source="$(var.ShadowPlayRenamerCore.TargetDir)Enhancer.SemVer.pdb"/>
+        <Condition><![CDATA[INSTALLPDB]]></Condition>
       </Component>
       <Component DiskId="1" Id="SPRCORE.PDB" Guid="297b8828-8568-48a0-b1ff-a222a179219a">
         <File Id="SPRCORE.PDB" Name="SPRCore.pdb" Source="$(var.ShadowPlayRenamerCore.TargetDir)SPRCore.pdb" />
