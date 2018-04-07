@@ -31,7 +31,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>Properties\VersionResource.generated.res</Win32Resource>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Enhancer.SemVer">
+      <HintPath>..\References\internal\Enhancer.SemVer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -63,7 +69,7 @@
     <Compile Include="Extension\StatusReportingServiceBase.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Properties\VersionInfo.cs">
+    <Compile Include="Properties\VersionInfo.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionInfo.tt</DependentUpon>
@@ -91,13 +97,31 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\VersionResource.generated.rc">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionResource.tt</DependentUpon>
+    </Content>
+    <Content Include="Properties\VersionResource.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VersionResource.generated.rc</LastGenOutput>
+    </Content>
+    <None Include="Properties\FileVersion.tt" />
     <Content Include="Properties\VersionInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VersionInfo.cs</LastGenOutput>
+      <LastGenOutput>VersionInfo.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>set INCLUDE=D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\ATLMFC\include;D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\cppwinrt
+if "$(ConfigurationName)" equ "Debug" (
+    "C:\Program Files (x86)\Windows Kits\10\bin\x86\rc.exe" /nologo /d DEBUG "$(ProjectDir)Properties\VersionResource.generated.rc"
+) else (
+    "C:\Program Files (x86)\Windows Kits\10\bin\x86\rc.exe" /nologo "$(ProjectDir)Properties\VersionResource.generated.rc"
+)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -1,0 +1,560 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Enhancer.SemVer</name>
+    </assembly>
+    <members>
+        <member name="T:VersionInfo">
+            <summary>
+            This class holds copies of the version numbers this assembly uses.
+            </summary>
+        </member>
+        <member name="P:VersionInfo.AssemblyVersion">
+            <summary>Gets the version of the assembly.</summary>
+        </member>
+        <member name="P:VersionInfo.FileVersion">
+            <summary>Gets the version of the file.</summary>
+        </member>
+        <member name="P:VersionInfo.ProductVersion">
+            <summary>Gets the version of the product.</summary>
+        </member>
+        <member name="T:Enhancer.Assemblies.SemanticVersion">
+            <summary>
+            Represents a semantic version compatible with the standard proposed at https://semver.org/.
+            </summary>
+        </member>
+        <member name="F:Enhancer.Assemblies.SemanticVersion.Empty">
+            <summary>
+            Represents an empty semantic version, with the lowest possible version number, that is not a pre-release version.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.Major">
+            <summary>
+            Gets the major version node.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.Minor">
+            <summary>
+            Gets the minor version node.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.Patch">
+            <summary>
+            Gets the patch version node.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.PreRelease">
+            <summary>
+            Gets the pre-release version node.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.MetaData">
+            <summary>
+            Gets the build meta-data node.
+            </summary>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.IsInitial">
+            <summary>
+            Gets a value indicating, if the current version identifies an initial release.
+            </summary>
+            <value>
+            <see langword="true"/> if the current version identifies an initial release, otherwise <see langword="false"/>.
+            </value>
+        </member>
+        <member name="P:Enhancer.Assemblies.SemanticVersion.IsPreRelease">
+            <summary>
+            Gets a value indicating whether the current version is a pre-release.
+            </summary>
+            <value>
+            <see langword="true"/> if the current version is a pre-release, otherwise <see langword="false"/>.
+            </value>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.ValidIdentifier(System.String)">
+            <summary>
+            Checks if an identifier is valid or not.
+            </summary>
+            <param name="identifier">The identifier to test.</param>
+            <returns><see langword="true"/> if the identifier is valid, otherwise <see langword="false"/>.</returns>
+            <remarks>
+            An identifier is what is separated by periods, and found in either the pre-release node, or the meta-data node.
+            </remarks>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.Parse(System.String)">
+            <summary>
+            Parses the given version string in to a <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="version">The version string to parse.</param>
+            <returns>The parsed instance of <see cref="T:Enhancer.Assemblies.SemanticVersion"/>.</returns>
+            <exception cref="T:System.FormatException">If failed to parse the provided string.</exception>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.TryParse(System.String,Enhancer.Assemblies.SemanticVersion@)">
+            <summary>
+            Makes an attempt to parse the given version string in to a <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="input">The version string to parse.</param>
+            <param name="version">The resulting <see cref="T:Enhancer.Assemblies.SemanticVersion"/>.</param>
+            <returns>
+            <see langword="true"/> if the version string was successfully parsed, and <paramref name="version"/>
+            holds an instance representing the parsed string, or <see langword="false"/> if failed to parse the version
+            string, in which case the resulting <paramref name="version"/> has nothing to do with the version string.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.ObjectAsString(System.Object)">
+            <summary>
+            Helper method, to convert the provided object to a string, using the invariant culture.
+            </summary>
+            <param name="obj">The object to convert.</param>
+            <returns>The string representing the object.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="version">The version string to parse</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="major">Specifies the major node for the version.</param>
+            <param name="minor">Specifies the minor node for the version.</param>
+            <param name="patch">Specifies the patch node for the version.</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Object[])">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="major">Specifies the major node for the version.</param>
+            <param name="minor">Specifies the minor node for the version.</param>
+            <param name="patch">Specifies the patch node for the version.</param>
+            <param name="preRelease">Defines the identifiers of the pre-release node for the version.</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="major">Specifies the major node for the version.</param>
+            <param name="minor">Specifies the minor node for the version.</param>
+            <param name="patch">Specifies the patch node for the version.</param>
+            <param name="preRelease">Defines the identifiers of the pre-release node for the version.</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Collections.Generic.IEnumerable{System.Object},System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="major">Specifies the major node for the version.</param>
+            <param name="minor">Specifies the minor node for the version.</param>
+            <param name="patch">Specifies the patch node for the version.</param>
+            <param name="preRelease">Defines the identifiers of the pre-release node for the version.</param>
+            <param name="metadata">Defines the identifiers of the build meta-data node for the version.</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </summary>
+            <param name="major">Specifies the major node for the version.</param>
+            <param name="minor">Specifies the minor node for the version.</param>
+            <param name="patch">Specifies the patch node for the version.</param>
+            <param name="preRelease">Defines the identifiers of the pre-release node for the version.</param>
+            <param name="metadata">Defines the identifiers of the build meta-data node for the version.</param>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.ToString">
+            <summary>
+            Returns the string representation of the current instance.
+            </summary>
+            <returns>The string representing the semantic version instance.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.ToString(System.String)">
+            <summary>
+            Returns the string representation of the current instance.
+            </summary>
+            <param name="format">
+            Can be either <see langword="null"/> to specify the default behavior or one of the following values:
+            <list type="table">
+            <listheader>
+            <term>Value</term>
+            <term>Results</term>
+            </listheader>
+            <item>
+            <term><code>"0"</code></term>
+            <term>
+            Only returns the "<em>major</em>.<em>minor</em>.<em>patch</em>" portion, completely omitting the pre-release
+            and meta-data nodes.
+            </term>
+            </item>
+            <item>
+            <term><code>"1"</code></term>
+            <term>Includes the pre-release node, but omits the build meta-data node.</term>
+            </item>
+            <item>
+            <term><code>"2"</code></term>
+            <term>Includes the build meta-data node, but omits the pre-release node.</term>
+            </item>
+            <item>
+            <term><code>"3"</code> <em>(Default)</em></term>
+            <term>Produces the full version including the pre-release node and build meta-data.</term>
+            </item>
+            </list>
+            </param>
+            <returns>The string representing the semantic version instance.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns the string representation of the current instance.
+            </summary>
+            <param name="format">
+            Can be either <see langword="null"/> to specify the default behavior or one of the following values:
+            <list type="table">
+            <listheader>
+            <term>Value</term>
+            <term>Results</term>
+            </listheader>
+            <item>
+            <term><code>"0"</code></term>
+            <term>
+            Only returns the "<em>major</em>.<em>minor</em>.<em>patch</em>" portion, completely omitting the pre-release
+            and meta-data nodes.
+            </term>
+            </item>
+            <item>
+            <term><code>"1"</code></term>
+            <term>Includes the pre-release node, but omits the build meta-data node.</term>
+            </item>
+            <item>
+            <term><code>"2"</code></term>
+            <term>Includes the build meta-data node, but omits the pre-release node.</term>
+            </item>
+            <item>
+            <term><code>"3"</code> <em>(Default)</em></term>
+            <term>Produces the full version including the pre-release node and build meta-data.</term>
+            </item>
+            </list>
+            </param>
+            <param name="formatProvider">This parameter does not affects the outcome of the string result.</param>
+            <returns>The string representing the semantic version instance.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.GetHashCode">
+            <summary>
+            Calculates a hash code for this semantic version instance.
+            </summary>
+            <returns>A hash code for this version.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.Clone">
+            <summary>
+            Creates a copy of the current instance.
+            </summary>
+            <returns>The copy of the current instance.</returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.Equals(Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares the current version with another version.
+            </summary>
+            <param name="other">The version to compare to.</param>
+            <returns>
+            <see langword="true"/> if <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> are equals,
+            the <see cref="P:Enhancer.Assemblies.SemanticVersion.PreRelease"/> have the same amount of identifiers, and all of them are equal one another,
+            and they appear in the same order, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.Equals(System.Object)">
+            <summary>
+            Compares the current version with another version.
+            </summary>
+            <param name="obj">The version to compare to.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="obj"/> is a <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance, and
+            <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> are equals, the <see cref="P:Enhancer.Assemblies.SemanticVersion.PreRelease"/>
+            have the same amount of identifiers, and all of them are equal one another, and they appear in the same
+            order, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.CompareTo(Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares the current version with another version.
+            </summary>
+            <param name="other">The other version to compare the current version with.</param>
+            <returns>
+            <list type="table">
+            <listheader>
+            <term>Value</term>
+            <term>Condition</term>
+            </listheader>
+            <item>
+            <term>-1</term>
+            <term>
+            <para>If the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is less then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is less then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is less then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have any identifiers specified in pre-release node, while the other have not.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have more identifiers specified in pre-release node, than the other.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but one of the
+            pre-release identifier is considered to be preceding than the other, either by numerically or lexically,
+            or the current version specifies a number whereas the other specifies a string.
+            </para>
+            </term>
+            </item>
+            <item>
+            <term>0</term>
+            <term>
+            If <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> are equal, and the pre-release nodes
+            have exactly the same amount of identifiers and are all of them are the same and are in the same order.
+            </term>
+            </item>
+            <item>
+            <term>1</term>
+            <term>
+            <para>If the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is greater then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is greater then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is greater then <paramref name="other"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have no identifiers specified in pre-release node, while the other have.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have less identifiers specified in pre-release node, than the other.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but one of the
+            pre-release identifier is considered to be preceding than the other, either by numerically or lexically,
+            or the current version specifies a string whereas the other specifies a number.
+            </para>
+            </term>
+            </item>
+            </list>
+            </returns>
+            <remarks>
+            This comparing function strictly follows the rules of what is specified in the https://semver.org
+            specification's 11th point.
+            </remarks>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.System#IComparable#CompareTo(System.Object)">
+            <summary>
+            Compares the current version with another version.
+            </summary>
+            <param name="obj">The other version to compare the current version with.</param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="obj"/> isn't a <see cref="T:Enhancer.Assemblies.SemanticVersion"/> instance.
+            </exception>
+            <returns>
+            <list type="table">
+            <listheader>
+            <term>Value</term>
+            <term>Condition</term>
+            </listheader>
+            <item>
+            <term>-1</term>
+            <term>
+            <para>If the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is less then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is less then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is less then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have any identifiers specified in pre-release node, while the other have not.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have more identifiers specified in pre-release node, than the other.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but one of the
+            pre-release identifier is considered to be preceding than the other, either by numerically or lexically,
+            or the current version specifies a number whereas the other specifies a string.
+            </para>
+            </term>
+            </item>
+            <item>
+            <term>0</term>
+            <term>
+            If <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> are equal, and the pre-release nodes
+            have exactly the same amount of identifiers and are all of them are the same and are in the same order.
+            </term>
+            </item>
+            <item>
+            <term>1</term>
+            <term>
+            <para>If the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is greater then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is greater then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> is the same,
+            but the current <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is greater then <paramref name="obj"/>'s <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/>,</para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have no identifiers specified in pre-release node, while the other have.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but the current
+            instance have less identifiers specified in pre-release node, than the other.
+            </para>
+            <para><em>- OR -</em></para>
+            <para>
+            If the <see cref="P:Enhancer.Assemblies.SemanticVersion.Major"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.Minor"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> is the same, but one of the
+            pre-release identifier is considered to be preceding than the other, either by numerically or lexically,
+            or the current version specifies a string whereas the other specifies a number.
+            </para>
+            </term>
+            </item>
+            </list>
+            </returns>
+            <remarks>
+            This comparing function strictly follows the rules of what is specified in the https://semver.org
+            specification's 11th point.
+            </remarks>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.IsPatch(Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares the current version with the specified version, and determines if the versions
+            are only have bug-fix changes.
+            </summary>
+            <param name="version">The later version to compare with.</param>
+            <returns>
+            <see langword="true"/> if the specified version compared to the current version only specifies minor bug-fixes or
+            other changes, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.IsBackwardCompatible(Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares the current version with the specified version, and determines if the versions
+            are only have backward-compatible.
+            </summary>
+            <param name="version">The later version to compare with.</param>
+            <returns>
+            <see langword="true"/> if the specified version compared to the current version only specifies
+            backward-compatible changes, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.IsBreaking(Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares the current version with the specified version, and determines if the versions
+            are possibly not backward-compatible.
+            </summary>
+            <param name="version">The later version to compare with.</param>
+            <returns>
+            <see langword="true"/> if the specified version compared to the current version isn't backward-compatible,
+            otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_Equality(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares if two semantic versions are equal.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are considered equal, otherwise
+            <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_Inequality(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares if two semantic versions are not equal.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> are considered unequal, otherwise
+            <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_LessThan(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares two semantic versions whether the first version precedes the second.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="a"/> precedes <paramref name="b"/>, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_GreaterThan(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares two semantic version whether the first version successes the second.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="a"/> successes <paramref name="b"/>, otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_LessThanOrEqual(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares two semantic versions whether the first version precedes the second, or are they the same.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if either <paramref name="a"/> precedes <paramref name="b"/> or are they the same,
+            otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_GreaterThanOrEqual(Enhancer.Assemblies.SemanticVersion,Enhancer.Assemblies.SemanticVersion)">
+            <summary>
+            Compares two semantic version whether the first version successes the second, or are they the same.
+            </summary>
+            <param name="a">The first version to compare.</param>
+            <param name="b">The second version to compare.</param>
+            <returns>
+            <see langword="true"/> if <paramref name="a"/> successes <paramref name="b"/> or are they the same,
+            otherwise <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_Explicit(Enhancer.Assemblies.SemanticVersion)~System.Version">
+            <summary>
+            Converts the specified semantic version to a <see cref="T:System.Version"/>.
+            </summary>
+            <param name="version">The version to convert.</param>
+            <remarks>
+            The converted version will only have it's major and minor node set.
+            The <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/>, <see cref="P:Enhancer.Assemblies.SemanticVersion.PreRelease"/> and <see cref="P:Enhancer.Assemblies.SemanticVersion.MetaData"/> values will not be transferred
+            to the result by any means.
+            </remarks>
+        </member>
+        <member name="M:Enhancer.Assemblies.SemanticVersion.op_Explicit(System.Version)~Enhancer.Assemblies.SemanticVersion">
+            <summary>
+            Converts the specified <see cref="T:System.Version"/> to a <see cref="T:Enhancer.Assemblies.SemanticVersion"/>.
+            </summary>
+            <param name="version">The version to convert.</param>
+            <remarks>
+            The converted version will only have it's major and minor node set.
+            The <see cref="P:Enhancer.Assemblies.SemanticVersion.Patch"/> node will be zero.
+            </remarks>
+        </member>
+    </members>
+</doc>

@@ -3,18 +3,61 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".cs" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file="..\..\ProductVersion.t4" #>
+<#@ include file="FileVersion.tt" #>
 <#
-
-int    major    = 1;
-int    minor    = 0;
-int    patch    = 0;
-string revision = Environment.GetEnvironmentVariable("REVISION_NUMBER") ?? "0";
-string build    = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "0";
-
+Version assemblyVersion = new Version((int)major, 0);
+Version fileVersion = new Version((int)fileMajor, (int)fileMinor, int.Parse(build), int.Parse(revision));
 #>
+using Enhancer.Assemblies;
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-[assembly: AssemblyVersion("<#= major #>.0.0.0")]
-[assembly: AssemblyFileVersion("<#= major #>.<#= minor #>.<#= build #>.<#= revision #>")]
-[assembly: AssemblyInformationalVersion("<#= major #>.<#= minor #>.<#= patch #>+<#= build #>.<#= revision #>")]
+[assembly: AssemblyVersion(VersionInfo._assemblyVersionString)]
+[assembly: AssemblyFileVersion(VersionInfo._fileVersionString)]
+[assembly: AssemblyInformationalVersion(VersionInfo._productVersionString)]
+
+/// <summary>
+/// This class holds copies of the version numbers this assembly uses.
+/// </summary>
+[ExcludeFromCodeCoverage]
+partial class VersionInfo
+{
+    internal const string _assemblyVersionString = "<#= assemblyVersion #>";
+    internal const string _fileVersionString     = "<#= fileVersion #>";
+    internal const string _productVersionString  = "<#= productVersion #>";
+
+    private static readonly Version         _assemblyVersion = new Version(<#= assemblyVersion.Major #>, <#= assemblyVersion.Minor #>);
+    private static readonly Version         _fileVersion     = new Version(<#= major #>, <#= minor #>, <#= build #>, <#= revision #>);
+    private static readonly SemanticVersion _productVersion  = new SemanticVersion(<#= major #>, <#= minor #>, <#= patch #>,
+<#
+            if (preRelease.Any())
+            {
+#>
+        new object[] { <#= string.Join(", ", preRelease) #> },
+<#
+            }
+            else
+            {
+#>
+        new object[0],
+<#
+            }
+#>
+        new object[] { <#= string.Join(", ", buildMetaData) #> });
+
+    /// <summary>Gets the version of the assembly.</summary>
+    [DebuggerNonUserCode]
+    public static Version AssemblyVersion => _assemblyVersion;
+
+    /// <summary>Gets the version of the file.</summary>
+    [DebuggerNonUserCode]
+    public static Version FileVersion => _fileVersion;
+
+    /// <summary>Gets the version of the product.</summary>
+    [DebuggerNonUserCode]
+    public static SemanticVersion ProductVersion => _productVersion;
+}

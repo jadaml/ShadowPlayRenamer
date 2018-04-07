@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Shadow Play Renamer")]
-[assembly: AssemblyDescription("Command-line interface for the Shadow Play file renamer.")]
+[assembly: AssemblyDescription("Command-line interface for the Shadow Play Renamer.")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

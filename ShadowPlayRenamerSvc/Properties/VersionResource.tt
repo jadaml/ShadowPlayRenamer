@@ -1,0 +1,100 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.DirectoryServices.AccountManagement" #>
+<#@ import namespace="System.DirectoryServices.AccountManagement" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generated.rc" #>
+<#@ include file="..\..\ProductVersion.t4" #>
+<#@ include file="FileVersion.tt" #>
+<#
+
+List<FileFlags> fileFlags = new List<FileFlags>();
+
+if (patch > 0)
+{
+    fileFlags.Add(FileFlags.VS_FF_PATCHED);
+}
+
+if (preRelease.Any())
+{
+    fileFlags.Add(FileFlags.VS_FF_PRERELEASE);
+}
+
+if (build == "0" || revision == "0")
+{
+    fileFlags.Add(FileFlags.VS_FF_PRIVATEBUILD);
+}
+
+if (!string.IsNullOrEmpty(specialBuild))
+{
+    fileFlags.Add(FileFlags.VS_FF_SPECIALBUILD);
+}
+
+IEnumerable<FileFlags> debugFileFlags = fileFlags.Concat(new FileFlags[] { FileFlags.VS_FF_DEBUG });
+
+#>
+#include <winresrc.h>
+
+1 VERSIONINFO
+FILEVERSION    <#= fileMajor #>, <#= fileMinor #>, <#= build #>, <#= revision #>
+PRODUCTVERSION <#= major #>, <#= minor #>, <#= build #>, <#= patch #>
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+#ifdef DEBUG
+FILEFLAGS      (<#= string.Join("|", debugFileFlags) #>)
+#else
+FILEFLAGS      (<#= string.Join("|", fileFlags) #>)
+#endif
+FILEOS         VOS_NT
+FILETYPE       VFT_DLL
+FILESUBTYPE    VFT2_UNKNOWN
+{
+    BLOCK          "StringFileInfo"
+    {
+        BLOCK "040904B0" // U.S. English
+        {
+            VALUE "CompanyName",      "Ádám L. Juhász"
+            VALUE "FileDescription",  "File renaming service that monitors and renames video recordings of NVidia Experience Shadow Play feature"
+            VALUE "FileVersion",      "<#= fileMajor #>.<#= fileMinor #>.<#= build #>.<#= revision #>"
+            VALUE "InternalName",     "SPRSVC"
+            VALUE "LegalCopyright",   "Copyright © 2018, Ádám L. Juhász"
+            VALUE "OriginalFilename", "SPRSVC.exe"
+<#
+            if (build == "0" || revision == "0")
+            {
+#>
+            VALUE "PrivateBuild",     "Built by <#= UserPrincipal.Current.DisplayName #> on <#= Environment.MachineName #>"
+<#
+            }
+#>
+            VALUE "ProductName",      "Shadow Play Renamer"
+            VALUE "ProductVersion",   "<#= productVersion #>"
+<#
+            if (!string.IsNullOrEmpty(specialBuild))
+            {
+#>
+            VALUE "SpecialBuild",     "<#= specialBuild #>"
+<#
+            }
+#>
+        }
+    }
+
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x0409, 0x04b0, 0x040E, 0x04b0
+    }
+}
+<#+
+
+enum FileFlags
+{
+    VS_FF_DEBUG,
+    VS_FF_PATCHED,
+    VS_FF_PRERELEASE,
+    VS_FF_PRIVATEBUILD,
+    VS_FF_SPECIALBUILD,
+}
+
+#>

@@ -1,0 +1,6 @@
+﻿<#
+
+uint fileMajor = 1;
+uint fileMinor = 0;
+
+#>
