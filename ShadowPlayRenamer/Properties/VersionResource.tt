@@ -1,12 +1,10 @@
-<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="System.DirectoryServices.AccountManagement" #>
-<#@ import namespace="System.DirectoryServices.AccountManagement" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".generated.rc" #>
-<#@ include file="..\..\ProductVersion.t4" #>
+<#@ include file="../../ProductVersion.t4" #>
 <#@ include file="FileVersion.tt" #>
 <#
 
@@ -64,7 +62,7 @@ FILESUBTYPE    VFT2_UNKNOWN
             if (build == "0" || revision == "0")
             {
 #>
-            VALUE "PrivateBuild",     "Built by <#= UserPrincipal.Current.DisplayName #> on <#= Environment.MachineName #>"
+            VALUE "PrivateBuild",     "Built by <#= user #> on <#= machine #>"
 <#
             }
 #>
