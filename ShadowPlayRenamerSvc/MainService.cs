@@ -175,7 +175,23 @@ namespace JAL.ShadowPlayRenamer.Service
             watcher.Created += Watcher_Created;
             watcher.Error   += Watcher_Error;
             watcher.EndInit();
-            watcher.EnableRaisingEvents   = true;
+
+            try
+            {
+                watcher.EnableRaisingEvents = true;
+            }
+            catch (FileNotFoundException)
+            {
+                traceSource.TraceEvent(TraceEventType.Error, (int)EventID.ServiceFaulted,
+                    "Failed to configure the file system watcher on the specified path: {0}\n" +
+                    "Make sure the account the service is running as have rights to access and modify files at the path.",
+                    watcher.Path);
+                EventLog.WriteEntry($"Failed to configure the file system watcher on the specified path: {watcher.Path}\n" +
+                    $"Make sure the account the service is running as have rights to access and modify files at the path.",
+                    EventLogEntryType.FailureAudit);
+                Stop();
+                return;
+            }
 
             traceSource.TraceEvent(TraceEventType.Start, (int)EventID.ServiceStarted, "Service started.");
             EventLog.WriteEntry("Service started.", EventLogEntryType.Information, (int)EventID.ServiceStarted);
