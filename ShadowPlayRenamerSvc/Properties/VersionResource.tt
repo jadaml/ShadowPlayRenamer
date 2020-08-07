@@ -37,7 +37,7 @@ IEnumerable<FileFlags> debugFileFlags = fileFlags.Concat(new FileFlags[] { FileF
 
 1 VERSIONINFO
 FILEVERSION    <#= fileMajor #>, <#= fileMinor #>, <#= build #>, <#= revision #>
-PRODUCTVERSION <#= major #>, <#= minor #>, <#= build #>, <#= patch #>
+PRODUCTVERSION <#= major #>, <#= minor #>, <#= build #>, <#= revision #>
 FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
 #ifdef DEBUG
 FILEFLAGS      (<#= string.Join("|", debugFileFlags) #>)
@@ -54,7 +54,7 @@ FILESUBTYPE    VFT2_UNKNOWN
         {
             VALUE "CompanyName",      "Ádám L. Juhász"
             VALUE "FileDescription",  "File renaming service that monitors and renames video recordings of NVidia Experience Shadow Play feature"
-            VALUE "FileVersion",      "<#= fileMajor #>.<#= fileMinor #>.<#= build #>.<#= revision #>"
+            VALUE "FileVersion",      "<#= fileVersion #>"
             VALUE "InternalName",     "SPRSVC"
             VALUE "LegalCopyright",   "Copyright © 2018, Ádám L. Juhász"
             VALUE "OriginalFilename", "SPRSVC.exe"

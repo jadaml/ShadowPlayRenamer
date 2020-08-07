@@ -26,34 +26,33 @@ string machine = Environment.MachineName;
 ////////////////////////////////////////////////////////////////////////////////
 #>
 <#
-IEnumerable<object> preRelease = from identifier in new object[] { preReleaseStage, preReleaseLevel }
-                                 where identifier != null
-                                    && (identifier is string && (string)identifier != ""
-                                     || identifier is uint && (uint)identifier > 0)
-                                 select identifier;
+IEnumerable<object> rawPreRelease = from identifier in new object[] { preReleaseStage, preReleaseLevel }
+                                    where identifier != null
+                                       && (identifier is string && (string)identifier != ""
+                                        || identifier is uint && (uint)identifier > 0)
+                                    select identifier;
 
-IEnumerable<object> buildMetaData;
+IEnumerable<object> rawBuildMetaData;
 
 if (build == "0" || revision == "0")
 {
-    buildMetaData = new object[] { user, machine, Environment.OSVersion.Platform, specialBuild };
+    rawBuildMetaData = new object[] { user, machine, Environment.OSVersion.Platform, specialBuild };
 }
 else
 {
-    buildMetaData = new object[] { build, gitCommit, Environment.OSVersion.Platform, specialBuild };
+    rawBuildMetaData = new object[] { build, gitCommit, Environment.OSVersion.Platform, specialBuild };
 }
 
-buildMetaData = from identifier in buildMetaData
-                where identifier != null
-                   && (!(identifier is string) || (string)identifier != "" && (string)identifier != "0")
-                select identifier;
+rawBuildMetaData = from identifier in rawBuildMetaData
+                   where identifier != null
+                      && (!(identifier is string) || (string)identifier != "" && (string)identifier != "0")
+                   select identifier;
 
 string productVersion = $"{major}.{minor}.{patch}"
-                      + (preRelease.Any() ? $"-{string.Join(".", preRelease)}" : "")
-                      + $"+{string.Join(".", buildMetaData)}";
-
-preRelease = from identifier in preRelease
-             select identifier is string ? $@"""{identifier}""" : (identifier.GetType().IsEnum ? $"{identifier.GetType().FullName}.{identifier}" : identifier);
-buildMetaData = from identifier in buildMetaData
-                select identifier is string ? $@"""{identifier}""": (identifier.GetType().IsEnum ? $"{identifier.GetType().FullName}.{identifier}" : identifier);
+                      + (rawPreRelease.Any() ? $"-{string.Join(".", rawPreRelease)}" : "")
+                      + $"+{string.Join(".", rawBuildMetaData)}";
+IEnumerable<object> preRelease = from identifier in rawPreRelease
+                                 select identifier is string ? $@"""{identifier}""" : (identifier.GetType().IsEnum ? $"{identifier.GetType().FullName}.{identifier}" : identifier);
+IEnumerable<object> buildMetaData = from identifier in rawBuildMetaData
+                                    select identifier is string ? $@"""{identifier}""": (identifier.GetType().IsEnum ? $"{identifier.GetType().FullName}.{identifier}" : identifier);
 #>

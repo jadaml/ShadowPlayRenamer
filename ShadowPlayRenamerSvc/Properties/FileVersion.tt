@@ -2,5 +2,10 @@
 
 uint fileMajor = 1;
 uint fileMinor = 1;
+uint filePatch = 0;
+
+string fileVersion = $"{fileMajor}.{fileMinor}.{filePatch}"
+                   + (rawPreRelease.Any() ? $"-{string.Join(".", rawPreRelease)}" : "")
+                   + $"+{string.Join(".", rawBuildMetaData)}";
 
 #>
