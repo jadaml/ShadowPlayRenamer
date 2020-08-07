@@ -56,7 +56,7 @@ FILESUBTYPE    VFT2_UNKNOWN
             VALUE "FileDescription",  "Command-line interface for the Shadow Play Renamer."
             VALUE "FileVersion",      "<#= fileVersion #>"
             VALUE "InternalName",     "SPRCLI"
-            VALUE "LegalCopyright",   "Copyright © 2018, Ádám L. Juhász"
+            VALUE "LegalCopyright",   "Copyright © 2018, 2020, Ádám L. Juhász"
             VALUE "OriginalFilename", "SPRCLI.exe"
 <#
             if (build == "0" || revision == "0")

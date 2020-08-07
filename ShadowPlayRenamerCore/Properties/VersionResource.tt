@@ -56,7 +56,7 @@ FILESUBTYPE    VFT2_UNKNOWN
             VALUE "FileDescription",  "Common features for Shadow Play Renamer"
             VALUE "FileVersion",      "<#= fileVersion #>"
             VALUE "InternalName",     "SPRCore"
-            VALUE "LegalCopyright",   "Copyright © 2018, Ádám L. Juhász"
+            VALUE "LegalCopyright",   "Copyright © 2018, 2020, Ádám L. Juhász"
             VALUE "OriginalFilename", "SPRCore.dll"
 <#
             if (build == "0" || revision == "0")

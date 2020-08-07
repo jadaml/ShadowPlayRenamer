@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2018 Ádám Juhász
+﻿// Copyright (c) 2018, 2020 Ádám Juhász
 // This file is part of ShadowPlayRenamerSvc.
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JAL.ShadowPlayRenamer.Service.Extension;
+using JAL.ShadowPlayRenamer.WinAPI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,7 +23,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -101,15 +101,10 @@ namespace JAL.ShadowPlayRenamer.Service
             renamer = new Renamer(new RenamerAppConfig());
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            traceSource.TraceData(e.IsTerminating ? TraceEventType.Critical : TraceEventType.Error,
-                (int)EventID.ServiceFaulted, e.IsTerminating, e.ExceptionObject);
-        }
-
         protected override void OnStart(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             traceSource.TraceInformation("Service starting.");
 
@@ -203,16 +198,6 @@ namespace JAL.ShadowPlayRenamer.Service
             SetServiceStatus(ref serviceStatus);
         }
 
-        private void ProcessExistingFiles()
-        {
-            traceSource.TraceEvent(TraceEventType.Resume, (int)EventID.ServiceStarted, "Process files that have not yet been processed.");
-
-            foreach (string filePath in Directory.GetFiles(watcher.Path, watcher.Filter, SearchOption.AllDirectories))
-            {
-                renamerTasks.Add(RenameFile(filePath, tokenSource.Token));
-            }
-        }
-
         protected override void OnStop() => StopProcessing();
 
         protected override void OnPause() => StopProcessing();
@@ -225,6 +210,46 @@ namespace JAL.ShadowPlayRenamer.Service
             tokenSource.Dispose();
             tokenSource = new CancellationTokenSource();
             watcher.EnableRaisingEvents = true;
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            byte[] rawData;
+
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    formatter.Serialize(stream, e.ExceptionObject);
+                    rawData = stream.ToArray();
+                }
+            }
+            catch
+            {
+                rawData = new byte[0];
+            }
+
+            EventLog.WriteEntry($"Fatal error of {e.ExceptionObject.GetType()} type: {(e.ExceptionObject as Exception)?.Message ?? e.ExceptionObject.ToString()}",
+                e.IsTerminating ? EventLogEntryType.FailureAudit : EventLogEntryType.Error, (int)EventID.ServiceFaulted, 0, rawData);
+            traceSource.TraceData(e.IsTerminating ? TraceEventType.Critical : TraceEventType.Error,
+                (int)EventID.ServiceFaulted, e.IsTerminating, e.ExceptionObject);
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            byte[] rawData;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, e.Exception);
+                rawData = stream.ToArray();
+            }
+
+            EventLog.WriteEntry($"A worker threw an exception of {e.Exception.GetType()} type: {e.Exception.Message}",
+                EventLogEntryType.Error, (int)EventID.ServiceFaulted, 0, rawData);
+            traceSource.TraceData(TraceEventType.Error, (int)EventID.ServiceFaulted, e.Exception);
+
+            e.SetObserved();
         }
 
         private void Watcher_Error(object sender, ErrorEventArgs e)
@@ -248,6 +273,16 @@ namespace JAL.ShadowPlayRenamer.Service
         {
             traceSource.TraceEvent(TraceEventType.Verbose, (int)EventID.ServiceFaulted, "New file created. Trying to rename it.");
             renamerTasks.Add(RenameFile(e.FullPath, tokenSource.Token).ContinueWith(ClearTask));
+        }
+
+        private void ProcessExistingFiles()
+        {
+            traceSource.TraceEvent(TraceEventType.Resume, (int)EventID.ServiceStarted, "Process files that have not yet been processed.");
+
+            foreach (string filePath in Directory.GetFiles(watcher.Path, watcher.Filter, SearchOption.AllDirectories))
+            {
+                renamerTasks.Add(RenameFile(filePath, tokenSource.Token));
+            }
         }
 
         private void StopProcessing()
@@ -323,72 +358,69 @@ namespace JAL.ShadowPlayRenamer.Service
             // Make sure we are not grabbing away the resource from ShadowPlay.
             await Task.Delay(500);
 
-            traceSource.TraceEvent(TraceEventType.Start,
-                (int)EventID.RenameStarted, "Renaming file: {0}", filePath);
-
-            do
+            using (ThreadExecutionState texState = new ThreadExecutionState(ExecutionState.SystemRequired))
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    traceSource.TraceEvent(TraceEventType.Stop,
-                        (int)EventID.RenameCancelled, "Cancellation requested. Terminating renaming attempts of {0}.", filePath);
-                    return null;
-                }
+                traceSource.TraceEvent(TraceEventType.Start,
+                        (int)EventID.RenameStarted, "Renaming file: {0}", filePath);
 
-                traceSource.TraceEvent(TraceEventType.Verbose, (int)EventID.RenameStarted, "Renaming file. ({0})", filePath);
-
-                try
+                do
                 {
-                    result = renamer.RenameFile(filePath);
-                }
-                catch (FileNotFoundException)
-                {
-                    traceSource.TraceEvent(TraceEventType.Stop,
-                        (int)EventID.RenameFinished, "The file doesn't exist: {0}", filePath, result);
-
-                    return null;
-                }
-                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
-                {
-                    byte[] rawData;
-
-                    using (MemoryStream stream = new MemoryStream())
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        formatter.Serialize(stream, ex);
-                        rawData = stream.ToArray();
+                        traceSource.TraceEvent(TraceEventType.Stop,
+                            (int)EventID.RenameCancelled, "Cancellation requested. Terminating renaming attempts of {0}.", filePath);
+                        return null;
                     }
 
-                    traceSource.TraceEvent(TraceEventType.Error,
-                        (int)EventID.ServiceFaulted, "Exception occurred during renaming of {1} file.{0}{2}", Environment.NewLine,
-                        filePath, ex);
-                    traceSource.TraceEvent(TraceEventType.Suspend,
-                        (int)EventID.RenameSuspended, "Failed to rename {0}. Waiting {1:N}s", filePath, retryDelay / 1000d);
+                    traceSource.TraceEvent(TraceEventType.Verbose, (int)EventID.RenameStarted, "Renaming file. ({0})", filePath);
 
-                    await Task.Delay(retryDelay, cancellationToken);
-
-                    traceSource.TraceEvent(TraceEventType.Resume,
-                        (int)EventID.RenameResumed, "Renaming file: {0}", filePath);
-                }
-                catch (Exception ex)
-                {
-                    byte[] rawData;
-
-                    using (MemoryStream stream = new MemoryStream())
+                    try
                     {
-                        formatter.Serialize(stream, ex);
-                        rawData = stream.ToArray();
+                        result = renamer.RenameFile(filePath);
                     }
+                    catch (FileNotFoundException)
+                    {
+                        traceSource.TraceEvent(TraceEventType.Stop,
+                            (int)EventID.RenameFinished, "The file doesn't exist: {0}", filePath, result);
 
-                    traceSource.TraceData(TraceEventType.Critical, (int)EventID.ServiceFaulted, ex);
+                        return null;
+                    }
+                    catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        byte[] rawData;
 
-                    throw;
-                }
-            } while (result == null);
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            formatter.Serialize(stream, ex);
+                            rawData = stream.ToArray();
+                        }
 
-            traceSource.TraceEvent(TraceEventType.Stop,
-                (int)EventID.RenameFinished, "File rename was successful: {0} => {1}", filePath, result);
-            EventLog.WriteEntry($"File rename was successful: {filePath} => {result}",
-                EventLogEntryType.Information, (int)EventID.RenameFinished);
+                        EventLog.WriteEntry($"Exception occurred during renaming of {filePath} file. {ex.GetType()}: {ex.Message}",
+                            EventLogEntryType.FailureAudit, (int)EventID.ServiceFaulted, 0, rawData);
+
+                        traceSource.TraceEvent(TraceEventType.Error,
+                            (int)EventID.ServiceFaulted, "Exception occurred during renaming of {1} file.{0}{2}", Environment.NewLine,
+                            filePath, ex);
+                        traceSource.TraceEvent(TraceEventType.Suspend,
+                            (int)EventID.RenameSuspended, "Failed to rename {0}. Waiting {1:N}s", filePath, retryDelay / 1000d);
+
+                        await Task.Delay(retryDelay, cancellationToken);
+
+                        traceSource.TraceEvent(TraceEventType.Resume,
+                            (int)EventID.RenameResumed, "Renaming file: {0}", filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        traceSource.TraceData(TraceEventType.Critical, (int)EventID.ServiceFaulted, ex);
+                        throw;
+                    }
+                } while (result == null);
+
+                traceSource.TraceEvent(TraceEventType.Stop,
+                    (int)EventID.RenameFinished, "File rename was successful: {0} => {1}", filePath, result);
+                EventLog.WriteEntry($"File rename was successful: {filePath} => {result}",
+                    EventLogEntryType.Information, (int)EventID.RenameFinished); 
+            }
 
             return result;
         }

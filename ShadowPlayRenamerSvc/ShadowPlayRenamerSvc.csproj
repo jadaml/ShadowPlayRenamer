@@ -75,6 +75,8 @@
       <DependentUpon>VersionInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="RenamerAppConfig.cs" />
+    <Compile Include="WinAPI\ExecutionState.cs" />
+    <Compile Include="WinAPI\ThreadExecutionState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

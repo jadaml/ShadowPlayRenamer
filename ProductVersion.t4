@@ -4,8 +4,8 @@
 //// VERSION CONFIGURATION /////////////////////////////////////////////////////
 
 uint major = 1;
-uint minor = 0;
-uint patch = 1;
+uint minor = 1;
+uint patch = 0;
 
 string preReleaseStage = "";
 uint   preReleaseLevel = 0;
