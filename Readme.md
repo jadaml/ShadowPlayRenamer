@@ -107,7 +107,7 @@ INSTALLPDB=1
    and it is not prepared if the event log doesn't exists.*
 
    Open `Regedit`, and navigate to the
-   `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\EventLog\Services\Application`
+   `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Application`
    key.
 1. Right-click on the `Application` key and create a new key called `SPRSVC`
    and navigate in to it.
@@ -121,8 +121,8 @@ INSTALLPDB=1
    a running service.
 
 By default it will search the specified file for files that matches the
-`* MM.DD.YYYY - HH.MM.SS.SS.mp4` pseudo-pattern, and---once the file is free
-to be modified---will be renamed to `* YYYY.MM.DD - HH.MM.SS.SS.mp4`.
+`* MM.DD.YYYY - HH.MM.SS.SS.mp4` pseudo-pattern, and—once the file is free
+to be modified—will be renamed to `* YYYY.MM.DD - HH.MM.SS.SS.mp4`.
 If this is not suitable for you, then follow the [next section](#tuning) for
 more information on how to change this behavior, otherwise you are *done!*
 
