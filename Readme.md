@@ -312,8 +312,6 @@ The following options are known by the command:
     the argument of the switch.
 
     The pattern syntax is the same as [.NET Regular expression syntax][REGQR].
-    The `<` and `>` characters can be typed with the `&lt;` and `&gt;`
-    entities, and `"` with the `&quot;` entity.
 
     The *name* named group will be captured as the first argument for the
     ***OutputFormat*** value.
@@ -323,8 +321,8 @@ The following options are known by the command:
     ***OutputFormat*** value.
 
     Default value:
-    `(?&lt;name&gt;.*)\s+(?&lt;date&gt;\d{2}\.\d{2}\.\d{4}) -
-    (?&lt;time&gt;\d{2}\.\d{2}\.\d{2}.\d{2})`
+    `(?<name>.*)\s+(?<date>\d{2}\.\d{2}\.\d{4}) -
+    (?<time>\d{2}\.\d{2}\.\d{2}.\d{2})`
 
 /Output &lt;format&gt;
 :   Sets the target format of the file name after renaming.
