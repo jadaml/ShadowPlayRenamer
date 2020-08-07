@@ -20,6 +20,7 @@ namespace JAL.ShadowPlayRenamer.Cli
             WriteLine("{0} {1}",
                 assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
                 assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright);
+            WriteLine("Version {0} ({1})", VersionInfo.ProductVersion, VersionInfo.FileVersion);
             WriteLine("This program comes with ABSOLUTELY NO WARRANTY;");
             WriteLine("This is free software, and you are welcome to redistribute it under certain conditions;");
             WriteLine("For more information read the COPYING file next the executable.");
