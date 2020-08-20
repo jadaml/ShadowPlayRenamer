@@ -26,7 +26,7 @@ using System.Reflection;
 partial class VersionInfo
 {
     internal const string _assemblyVersionString = "<#= assemblyVersion #>";
-    internal const string _fileVersionString     = "<#= fileMajor #>.<#= fileMinor #>.<#= revision #>.<#= build #>";
+    internal const string _fileVersionString     = "<#= fileMajor #>.<#= fileMinor #>.<#= build #>.<#= revision #>";
     internal const string _productVersionString  = "<#= productVersion #>";
 
     private static readonly Version         _assemblyVersion = new Version(<#= assemblyVersion.Major #>, <#= assemblyVersion.Minor #>);
